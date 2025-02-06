@@ -9,7 +9,7 @@ class AutoScoutTestCase extends TestCase
 {
     public $client = null;
     
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new Client('64300', '64300');
     }
