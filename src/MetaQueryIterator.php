@@ -61,63 +61,63 @@ namespace Indielab\AutoScout24;
  */
 class MetaQueryIterator implements \Iterator
 {
-	private array $_data;
+    private array $_data;
 
-	public function __construct(array $data)
-	{
-		$this->_data = $data;
-	}
+    public function __construct(array $data)
+    {
+        $this->_data = $data;
+    }
 
-	public function rewind(): void
-	{
-		reset($this->_data);
-	}
+    public function rewind(): void
+    {
+        reset($this->_data);
+    }
 
-	/**
-	 * @return Meta Returns the Vehicle Object.
-	 */
-	public function current(): Meta
-	{
-		return new Meta(current($this->_data));
-	}
+    /**
+     * @return Meta Returns the Vehicle Object.
+     */
+    public function current(): Meta
+    {
+        return new Meta(current($this->_data));
+    }
 
-	public function key()
-	{
-		return key($this->_data);
-	}
+    public function key()
+    {
+        return key($this->_data);
+    }
 
-	public function next(): void
-	{
-		next($this->_data);
-	}
+    public function next(): void
+    {
+        next($this->_data);
+    }
 
-	public function valid(): bool
-	{
-		return key($this->_data) !== null;
-	}
+    public function valid(): bool
+    {
+        return key($this->_data) !== null;
+    }
 
-	/**
-	 * Filters the query iterator by one item and returns the Object.
-	 *
-	 * @param string $varName
-	 * @return Meta
-	 */
-	public function filter(string $varName): Meta
-	{
-		$key = array_search($varName, array_column($this->_data, 'ParameterName'));
+    /**
+     * Filters the query iterator by one item and returns the Object.
+     *
+     * @param string $varName
+     * @return Meta
+     */
+    public function filter(string $varName): Meta
+    {
+        $key = array_search($varName, array_column($this->_data, 'ParameterName'));
 
-		return new Meta($this->_data[$key]);
-	}
+        return new Meta($this->_data[$key]);
+    }
 
-	/**
-	 * Magic method to handle dynamic method calls.
-	 *
-	 * @param string $name The name of the method being called.
-	 * @param array $args The arguments passed to the method.
-	 * @return Meta The result of the dynamic method call processing.
-	 */
-	public function __call(string $name, array $args): Meta
-	{
-		return $this->filter($name);
-	}
+    /**
+     * Magic method to handle dynamic method calls.
+     *
+     * @param string $name The name of the method being called.
+     * @param array $args The arguments passed to the method.
+     * @return Meta The result of the dynamic method call processing.
+     */
+    public function __call(string $name, array $args): Meta
+    {
+        return $this->filter($name);
+    }
 }
