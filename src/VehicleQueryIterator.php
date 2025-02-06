@@ -6,36 +6,36 @@ use Countable;
 
 class VehicleQueryIterator implements \Iterator, Countable
 {
-    private $_data = null;
+    private array $_data;
     
     public function __construct(array $data)
     {
         $this->_data = $data;
     }
     
-    public $totalResultCount;
+    public int $totalResultCount;
     
-    public $totalPages;
+    public int $totalPages;
     
-    public $currentPage;
+    public int $currentPage;
     
-    public $currentPageResultCount;
+    public int $currentPageResultCount;
     
-    public function count()
-    {
+    public function count(): int
+	{
         return count($this->_data);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->_data);
+        reset($this->_data);
     }
     
     /**
-     * @return \Indielab\AutoScout24\Vehicle Returns the Vehicle Object.
+     * @return Vehicle Returns the Vehicle Object.
      */
-    public function current()
-    {
+    public function current(): Vehicle
+	{
         return new Vehicle(current($this->_data));
     }
     
@@ -44,13 +44,13 @@ class VehicleQueryIterator implements \Iterator, Countable
         return key($this->_data);
     }
     
-    public function next()
+    public function next(): void
     {
-        return next($this->_data);
+        next($this->_data);
     }
     
-    public function valid()
-    {
+    public function valid(): bool
+	{
         return key($this->_data) !== null;
     }
 }
