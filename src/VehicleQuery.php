@@ -71,18 +71,18 @@ class VehicleQuery extends Query
     {
         return $this->where(['equipor' => $equipmentId]);
     }
-	
-	/**
-	 * Sets the language for the current vehicle query.
+
+    /**
+     * Sets the language for the current vehicle query.
      * This method updates the query conditions to filter results based on the specified language code.
-	 * It allows method chaining by returning the modified VehicleQuery
-	 *
+     * It allows method chaining by returning the modified VehicleQuery
+     *
      * @param integer $lng Language code Paramters like: de.
      * @return \Indielab\AutoScout24\VehicleQuery
      */
     public function setLng($lng)
     {
-        return $this->where(['lng' => $lng]);
+				    return $this->where(['lng' => $lng]);
     }
     
     /**
