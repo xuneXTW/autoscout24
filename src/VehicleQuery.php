@@ -71,6 +71,7 @@ class VehicleQuery extends Query
     {
         return $this->where(['equipor' => $equipmentId]);
     }
+    
     /**
      * Sets the language for the current vehicle query.
      * This method updates the query conditions to filter results based on the specified language code.
