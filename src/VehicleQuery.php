@@ -77,7 +77,7 @@ class VehicleQuery extends Query
      * This method updates the query conditions to filter results based on the specified language code.
      * It allows method chaining by returning the modified VehicleQuery
      *
-     * @param integer $lng Language code Paramters like: de.
+     * @param string $lng Language code Paramters like: de, fr, it
      * @return \Indielab\AutoScout24\VehicleQuery
      */
     public function setLng($lng)
