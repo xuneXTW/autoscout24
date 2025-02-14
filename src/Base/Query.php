@@ -12,7 +12,7 @@ abstract class Query
      * Sets the client instance for the object.
      *
      * @param Client $client The client instance to set.
-     * @return $this The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setClient(Client $client): self
     {
