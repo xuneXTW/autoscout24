@@ -73,6 +73,19 @@ class VehicleQuery extends Query
     }
     
     /**
+     * Sets the language for the current vehicle query.
+     * This method updates the query conditions to filter results based on the specified language code.
+     * It allows method chaining by returning the modified VehicleQuery
+     *
+     * @param string $lng Language code Paramters like: de, fr, it
+     * @return \Indielab\AutoScout24\VehicleQuery
+     */
+    public function setLng($lng)
+    {
+        return $this->where(['lng' => $lng]);
+    }
+    
+    /**
      *
      * @param unknown $page
      * @return \Indielab\AutoScout24\VehicleQuery
@@ -267,7 +280,7 @@ class VehicleQuery extends Query
      */
     public function findOne($id)
     {
-        $response = $this->getClient()->endpointResponse('vehicles/'.$id);
+        $response = $this->getClient()->endpointResponse('vehicles/'.$id, $this->_where);
         
         return (new Vehicle($response));
     }
