@@ -11,15 +11,16 @@ use Indielab\AutoScout24\Base\Query;
  */
 class VehicleQuery extends Query
 {
-    private $_where = [];
-    
-    /**
-     *
-     * @param array $args
-     * @return \Indielab\AutoScout24\VehicleQuery
-     */
-    public function where(array $args)
-    {
+    private array $_where = [];
+
+	/**
+	 * Filters the query using the specified parameters.
+	 *
+	 * @param array $args An associative array where keys are field names and values are the desired filter values.
+	 * @return VehicleQuery
+	 */
+    public function where(array $args): VehicleQuery
+	{
         foreach ($args as $key => $value) {
             $this->_where[$key] = $value;
         }
@@ -33,9 +34,9 @@ class VehicleQuery extends Query
      * - 10: Personenwagen
      * - 20: Leichte Nutzfahrzeuge
      *
-     * @return \Indielab\AutoScout24\VehicleQuery
+     * @return VehicleQuery
      */
-    public function setVehicleTypeId($typeId)
+    public function setVehicleTypeId(int $typeId): VehicleQuery
     {
         return $this->where(['vehtyp' => $typeId]);
     }
@@ -45,9 +46,9 @@ class VehicleQuery extends Query
      * @param string $type Sort parameter to set, available list:
      * - price_asc: Sort price ascending
      * - price_desc: Sort price descending
-     * @return \Indielab\AutoScout24\VehicleQuery
+     * @return VehicleQuery
      */
-    public function setVehicleSorting($type)
+    public function setVehicleSorting(string $type): VehicleQuery
     {
         return $this->where(['sort' => $type]);
     }
@@ -55,9 +56,9 @@ class VehicleQuery extends Query
     /**
      *
      * @param Integer $year Year from
-     * @return \Indielab\AutoScout24\VehicleQuery
+     * @return VehicleQuery
      */
-    public function setYearTo($year)
+    public function setYearTo(int $year): VehicleQuery
     {
         return $this->where(['yearto' => $year]);
     }
@@ -65,54 +66,58 @@ class VehicleQuery extends Query
     /**
      *
      * @param integer $equipmentId Equipment Paramters like: 10 = Klimatisierung.
-     * @return \Indielab\AutoScout24\VehicleQuery
+     * @return VehicleQuery
      */
-    public function setEquipment($equipmentId)
+    public function setEquipment(int $equipmentId): VehicleQuery
     {
         return $this->where(['equipor' => $equipmentId]);
     }
-    
-    /**
-     *
-     * @param unknown $page
-     * @return \Indielab\AutoScout24\VehicleQuery
-     */
-    public function setPage($page)
+
+	/**
+	 * Set the current page for the query.
+	 *
+	 * @param int $page The page number to set.
+	 * @return VehicleQuery The updated query instance.
+	 */
+    public function setPage(int $page): VehicleQuery
     {
         return $this->where(['page' => $page]);
     }
 
-    /**
-     *
-     * @param unknown $amount
-     * @return \Indielab\AutoScout24\VehicleQuery
-     */
-    public function setItemsPerPage($amount)
+	/**
+	 * Set the number of items per page.
+	 *
+	 * @param int $amount The number of items to display per page.
+	 * @return VehicleQuery
+	 */
+    public function setItemsPerPage(int $amount): VehicleQuery
     {
         return $this->where(['itemsPerPage' => $amount]);
     }
-    
-    /**
-     *
-     * @param unknown $makeId
-     * @return \Indielab\AutoScout24\VehicleQuery
-     */
-    public function setMake($makeId)
+
+	/**
+	 * Set the make of the vehicle.
+	 *
+	 * @param int $makeId The ID of the vehicle make.
+	 * @return VehicleQuery Returns the current instance of VehicleQuery with the specified make applied.
+	 */
+    public function setMake(int $makeId): VehicleQuery
     {
         return $this->where(['make' => $makeId]);
     }
-    
-    /**
-     *
-     * @param unknown $modelId
-     * @return \Indielab\AutoScout24\VehicleQuery
-     */
-    public function setModel($modelId)
+
+	/**
+	 * Set the model for the vehicle query.
+	 *
+	 * @param int $modelId The ID of the model to set.
+	 * @return VehicleQuery The updated vehicle query instance.
+	 */
+    public function setModel(int $modelId): VehicleQuery
     {
         return $this->where(['model' => $modelId]);
     }
     
-    private $_filters = [];
+    private array $_filters = [];
     
     /**
      * Add arrayable filters on client side, this is performance ineffcient.
@@ -122,11 +127,11 @@ class VehicleQuery extends Query
      * ```
      * 
      * @param string $key
-     * @param v $value
-     * @return \Indielab\AutoScout24\VehicleQuery
+     * @param mixed $value
+     * @return VehicleQuery
      */
-    public function filter($key, $value)
-    {
+    public function filter(string $key, $value): VehicleQuery
+	{
         $this->_filters[$key] = $value;
         
         return $this;
@@ -166,34 +171,36 @@ class VehicleQuery extends Query
      * @param mixed $search The search string to compare with the column value.
      * @return array Returns an array with all valid elements.
      */
-    public static function searchColumns(array $array, $column, $search)
-    {
+    public static function searchColumns(array $array, string$column, $search): array
+	{
         $keys = array_filter($array, function($var) use($column, $search) {
             return strcasecmp($search, $var[$column]) == 0 ? true : false;
         });
     
         return $keys;
     }
-    
-    /**
-     *
-     * @return mixed
-     */
+
+	/**
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
     public function getResponse()
     {
         return $this->getClient()->endpointResponse('vehicles', $this->_where);
     }
-    
-    /**
-     *
-     * @param array $vehicles
-     * @param unknown $currentPageResultCount
-     * @param unknown $currentPage
-     * @param unknown $totalResultCount
-     * @param unknown $totalPages
-     * @return \Indielab\AutoScout24\VehicleQueryIterator
-     */
-    private function createIterator(array $vehicles, $currentPageResultCount, $currentPage, $totalResultCount, $totalPages)
+
+	/**
+	 * Creates and returns a VehicleQueryIterator after applying filters to the given data.
+	 *
+	 * @param array $vehicles The array of vehicles to be included in the iterator.
+	 * @param int $currentPageResultCount The number of results on the current page.
+	 * @param int $currentPage The current page number.
+	 * @param int $totalResultCount The total number of results available.
+	 * @param int $totalPages The total number of pages available.
+	 * @return VehicleQueryIterator The iterator containing the filtered vehicles and pagination information.
+	 */
+    private function createIterator(array $vehicles, int $currentPageResultCount, int $currentPage, int $totalResultCount, int $totalPages): VehicleQueryIterator
     {
         foreach ($this->_filters as $column => $search) {
             $vehicles = self::searchColumns($vehicles, $column, $search);
@@ -220,25 +227,26 @@ class VehicleQuery extends Query
     
     /**
      * Find pages
-     * @return \Indielab\AutoScout24\VehicleQueryIterator
+     * @return VehicleQueryIterator
      */
-    public function find()
-    {
+    public function find(): VehicleQueryIterator
+	{
         $each = $this->getResponse();
         
         return $this->createIterator($each['Vehicles'], $each['ItemsOnPage'], $each['CurrentPage'], $each['TotalMatches'], $each['TotalPages']);
     }
-    
-    /**
-     * Generats multiple requests in order to ignore page row limitation.
-     *
-     * Attention: May use lot of RAM usage and take some time to response, depending
-     * on how much cars you have in your list.
-     *
-     * @return \Indielab\AutoScout24\VehicleQueryIterator
-     */
-    public function findAll()
-    {
+
+	/**
+	 * Generats multiple requests in order to ignore page row limitation.
+	 *
+	 * Attention: May use lot of RAM usage and take some time to response, depending
+	 * on how much cars you have in your list.
+	 *
+	 * @return VehicleQueryIterator
+	 * @throws Exception
+	 */
+    public function findAll(): VehicleQueryIterator
+	{
         $each = $this->getClient()->endpointResponse('vehicles', $this->_where);
         
         if (empty($each) || !array_key_exists('Vehicles', $each)) {
@@ -259,12 +267,13 @@ class VehicleQuery extends Query
         
         return $this->createIterator($data, $each['TotalMatches'], 1, $each['TotalMatches'], 1);
     }
-    
-    /**
-     *
-     * @param integer $id The id of the vehicle
-     * @return \Indielab\AutoScout24\Vehicle
-     */
+
+	/**
+	 *
+	 * @param integer $id The id of the vehicle
+	 * @return Vehicle
+	 * @throws Exception
+	 */
     public function findOne($id)
     {
         $response = $this->getClient()->endpointResponse('vehicles/'.$id);
