@@ -81,7 +81,7 @@ class VehicleQuery extends Query
      * @param string $lng Language code Paramters like: de, fr, it
      * @return \Indielab\AutoScout24\VehicleQuery
      */
-    public function setLng($lng): VehicleQuery
+    public function setLng(string $lng): VehicleQuery
     {
         return $this->where(['lng' => $lng]);
     }
@@ -192,8 +192,9 @@ class VehicleQuery extends Query
     
         return $keys;
     }
-    
+
     /**
+     * Retrieves the response from the vehicles endpoint based on specified conditions.
      *
      * @return mixed
      * @throws Exception
@@ -251,7 +252,7 @@ class VehicleQuery extends Query
     }
     
     /**
-     * Generats multiple requests in order to ignore page row limitation.
+     * Generates multiple requests in order to ignore page row limitation.
      *
      * Attention: May use lot of RAM usage and take some time to response, depending
      * on how much cars you have in your list.
@@ -281,14 +282,15 @@ class VehicleQuery extends Query
         
         return $this->createIterator($data, $each['TotalMatches'], 1, $each['TotalMatches'], 1);
     }
-    
+
     /**
+     * Retrieves a single vehicle by its ID.
      *
-     * @param integer $id The id of the vehicle
-     * @return Vehicle
-     * @throws Exception
+     * @param int $id The unique identifier of the vehicle to retrieve.
+     * @return Vehicle The vehicle object corresponding to the provided ID.
+     * @throws Exception If the response from the client is invalid or an error occurs.
      */
-    public function findOne($id)
+    public function findOne(int $id): Vehicle
     {
         $response = $this->getClient()->endpointResponse('vehicles/' . $id);
 
