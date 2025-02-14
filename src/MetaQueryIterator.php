@@ -5,117 +5,118 @@ namespace Indielab\AutoScout24;
 /**
  * Meta Query Iterator.
  *
- * @method \Indielab\AutoScout24\Meta lng()
- * @method \Indielab\AutoScout24\Meta page();
- * @method \Indielab\AutoScout24\Meta itemsPerPage()
- * @method \Indielab\AutoScout24\Meta vehtyp()
- * @method \Indielab\AutoScout24\Meta sort()
- * @method \Indielab\AutoScout24\Meta makefull()
- * @method \Indielab\AutoScout24\Meta modelfull()
- * @method \Indielab\AutoScout24\Meta make()
- * @method \Indielab\AutoScout24\Meta model()
- * @method \Indielab\AutoScout24\Meta typename()
- * @method \Indielab\AutoScout24\Meta body()
- * @method \Indielab\AutoScout24\Meta fuel()
- * @method \Indielab\AutoScout24\Meta trans()
- * @method \Indielab\AutoScout24\Meta drive()
- * @method \Indielab\AutoScout24\Meta polnorm()
- * @method \Indielab\AutoScout24\Meta liccat()
- * @method \Indielab\AutoScout24\Meta consrat()
- * @method \Indielab\AutoScout24\Meta cond()
- * @method \Indielab\AutoScout24\Meta bodycol()
- * @method \Indielab\AutoScout24\Meta intcol()
- * @method \Indielab\AutoScout24\Meta tshaft()
- * @method \Indielab\AutoScout24\Meta seg()
- * @method \Indielab\AutoScout24\Meta equip()
- * @method \Indielab\AutoScout24\Meta equipor()
- * @method \Indielab\AutoScout24\Meta prop()
- * @method \Indielab\AutoScout24\Meta extras()
- * @method \Indielab\AutoScout24\Meta yearfrom()
- * @method \Indielab\AutoScout24\Meta yearto()
- * @method \Indielab\AutoScout24\Meta kmfrom()
- * @method \Indielab\AutoScout24\Meta kmto()
- * @method \Indielab\AutoScout24\Meta seatsfrom()
- * @method \Indielab\AutoScout24\Meta seatsto()
- * @method \Indielab\AutoScout24\Meta doorsfrom()
- * @method \Indielab\AutoScout24\Meta doorsto()
- * @method \Indielab\AutoScout24\Meta pricefrom()
- * @method \Indielab\AutoScout24\Meta priceto()
- * @method \Indielab\AutoScout24\Meta ccmfrom()
- * @method \Indielab\AutoScout24\Meta ccmto()
- * @method \Indielab\AutoScout24\Meta co2emitfrom()
- * @method \Indielab\AutoScout24\Meta co2mitto()
- * @method \Indielab\AutoScout24\Meta consfrom()
- * @method \Indielab\AutoScout24\Meta consto()
- * @method \Indielab\AutoScout24\Meta hpfrom()
- * @method \Indielab\AutoScout24\Meta hpto()
- * @method \Indielab\AutoScout24\Meta rad()
- * @method \Indielab\AutoScout24\Meta loc()
- * @method \Indielab\AutoScout24\Meta age()
- * @method \Indielab\AutoScout24\Meta onlytoorder()
- * @method \Indielab\AutoScout24\Meta includetoorder()
- * @method \Indielab\AutoScout24\Meta hasimage()
- * @method \Indielab\AutoScout24\Meta logo()
+ * @method Meta lng()
+ * @method Meta page();
+ * @method Meta itemsPerPage()
+ * @method Meta vehtyp()
+ * @method Meta sort()
+ * @method Meta makefull()
+ * @method Meta modelfull()
+ * @method Meta make()
+ * @method Meta model()
+ * @method Meta typename()
+ * @method Meta body()
+ * @method Meta fuel()
+ * @method Meta trans()
+ * @method Meta drive()
+ * @method Meta polnorm()
+ * @method Meta liccat()
+ * @method Meta consrat()
+ * @method Meta cond()
+ * @method Meta bodycol()
+ * @method Meta intcol()
+ * @method Meta tshaft()
+ * @method Meta seg()
+ * @method Meta equip()
+ * @method Meta equipor()
+ * @method Meta prop()
+ * @method Meta extras()
+ * @method Meta yearfrom()
+ * @method Meta yearto()
+ * @method Meta kmfrom()
+ * @method Meta kmto()
+ * @method Meta seatsfrom()
+ * @method Meta seatsto()
+ * @method Meta doorsfrom()
+ * @method Meta doorsto()
+ * @method Meta pricefrom()
+ * @method Meta priceto()
+ * @method Meta ccmfrom()
+ * @method Meta ccmto()
+ * @method Meta co2emitfrom()
+ * @method Meta co2mitto()
+ * @method Meta consfrom()
+ * @method Meta consto()
+ * @method Meta hpfrom()
+ * @method Meta hpto()
+ * @method Meta rad()
+ * @method Meta loc()
+ * @method Meta age()
+ * @method Meta onlytoorder()
+ * @method Meta includetoorder()
+ * @method Meta hasimage()
+ * @method Meta logo()
  *
  * @author Basil Suter <basil@nadar.io>
  */
 class MetaQueryIterator implements \Iterator
 {
-    private $_data = null;
-    
+    private array $_data;
+
     public function __construct(array $data)
     {
         $this->_data = $data;
     }
-    
-    public function rewind()
+
+    public function rewind(): void
     {
-        return reset($this->_data);
+        reset($this->_data);
     }
-    
+
     /**
-     * @return \Indielab\AutoScout24\Vehicle Returns the Vehicle Object.
+     * @return Meta Returns the Vehicle Object.
      */
-    public function current()
+    public function current(): Meta
     {
         return new Meta(current($this->_data));
     }
-    
+
     public function key()
     {
         return key($this->_data);
     }
-    
-    public function next()
+
+    public function next(): void
     {
-        return next($this->_data);
+        next($this->_data);
     }
-    
-    public function valid()
+
+    public function valid(): bool
     {
         return key($this->_data) !== null;
     }
-    
+
     /**
      * Filters the query iterator by one item and returns the Object.
      *
      * @param string $varName
-     * @return \Indielab\AutoScout24\Meta
+     * @return Meta
      */
-    public function filter($varName)
+    public function filter(string $varName): Meta
     {
         $key = array_search($varName, array_column($this->_data, 'ParameterName'));
-        
+
         return new Meta($this->_data[$key]);
     }
-    
+
     /**
+     * Magic method to handle dynamic method calls.
      *
-     * @param unknown $name
-     * @param unknown $args
-     * @return \Indielab\AutoScout24\Meta
+     * @param string $name The name of the method being called.
+     * @param array $args The arguments passed to the method.
+     * @return Meta The result of the dynamic method call processing.
      */
-    public function __call($name, $args)
+    public function __call(string $name, array $args): Meta
     {
         return $this->filter($name);
     }

@@ -40,7 +40,7 @@ class VehicleQuery extends Query
     {
         return $this->where(['vehtyp' => $typeId]);
     }
-
+    
     /**
      *
      * @param string $type Sort parameter to set, available list:
@@ -52,7 +52,7 @@ class VehicleQuery extends Query
     {
         return $this->where(['sort' => $type]);
     }
-
+    
     /**
      *
      * @param Integer $year Year from
@@ -62,7 +62,7 @@ class VehicleQuery extends Query
     {
         return $this->where(['yearto' => $year]);
     }
-
+    
     /**
      *
      * @param integer $equipmentId Equipment Paramters like: 10 = Klimatisierung.
@@ -71,6 +71,19 @@ class VehicleQuery extends Query
     public function setEquipment(int $equipmentId): VehicleQuery
     {
         return $this->where(['equipor' => $equipmentId]);
+    }
+
+    /**
+     * Sets the language for the current vehicle query.
+     * This method updates the query conditions to filter results based on the specified language code.
+     * It allows method chaining by returning the modified VehicleQuery
+     *
+     * @param string $lng Language code Paramters like: de, fr, it
+     * @return \Indielab\AutoScout24\VehicleQuery
+     */
+    public function setLng($lng): VehicleQuery
+    {
+        return $this->where(['lng' => $lng]);
     }
 
     /**
@@ -137,9 +150,9 @@ class VehicleQuery extends Query
         return $this;
     }
 
-    private $_orFilters = [];
+    private array $_orFilters = [];
 
-    public function orFilter($key, $value)
+    public function orFilter($key, $value): VehicleQuery
     {
         $this->_orFilters[] = [$key, $value];
 
@@ -176,10 +189,10 @@ class VehicleQuery extends Query
         $keys = array_filter($array, function($var) use ($column, $search) {
             return strcasecmp($search, $var[$column]) == 0 ? true : false;
         });
-
+    
         return $keys;
     }
-
+    
     /**
      *
      * @return mixed
@@ -189,7 +202,7 @@ class VehicleQuery extends Query
     {
         return $this->getClient()->endpointResponse('vehicles', $this->_where);
     }
-
+    
     /**
      * Creates and returns a VehicleQueryIterator after applying filters to the given data.
      *
@@ -210,13 +223,13 @@ class VehicleQuery extends Query
             $data = $vehicles;
 
             $vehicles = [];
-
+            
             foreach ($this->_orFilters as $keys) {
                 list($column, $search) = $keys;
                 $vehicles = array_merge(self::searchColumns($data, $column, $search), $vehicles);
             }
         }
-
+        
         $iterator = new VehicleQueryIterator($vehicles);
         $iterator->currentPageResultCount = $currentPageResultCount;
         $iterator->currentPage = $currentPage;
@@ -228,6 +241,7 @@ class VehicleQuery extends Query
     /**
      * Find pages
      * @return VehicleQueryIterator
+     * @throws Exception
      */
     public function find(): VehicleQueryIterator
     {
@@ -235,7 +249,7 @@ class VehicleQuery extends Query
 
         return $this->createIterator($each['Vehicles'], $each['ItemsOnPage'], $each['CurrentPage'], $each['TotalMatches'], $each['TotalPages']);
     }
-
+    
     /**
      * Generats multiple requests in order to ignore page row limitation.
      *
@@ -248,7 +262,7 @@ class VehicleQuery extends Query
     public function findAll(): VehicleQueryIterator
     {
         $each = $this->getClient()->endpointResponse('vehicles', $this->_where);
-
+        
         if (empty($each) || !array_key_exists('Vehicles', $each)) {
             return $this->createIterator([], 0, 0, 0, 0);
         }
@@ -264,10 +278,10 @@ class VehicleQuery extends Query
 
             $data = array_merge($data, $r['Vehicles']);
         }
-
+        
         return $this->createIterator($data, $each['TotalMatches'], 1, $each['TotalMatches'], 1);
     }
-
+    
     /**
      *
      * @param integer $id The id of the vehicle
