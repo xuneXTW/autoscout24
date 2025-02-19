@@ -292,7 +292,7 @@ class VehicleQuery extends Query
      */
     public function findOne(int $id): Vehicle
     {
-        $response = $this->getClient()->endpointResponse('vehicles/' . $id);
+        $response = $this->getClient()->endpointResponse('vehicles/' . $id, $this->_where);
 
         return (new Vehicle($response));
     }
