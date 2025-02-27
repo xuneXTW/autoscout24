@@ -8,8 +8,6 @@
 
 A very easy to use library to work with the AutoScout24 REST Api.
 
-## Test
-
 ## Examples
 
 Before using the library you have to obtain your *cuid* and *memberid* from the AutoScout24 Support.
