@@ -641,4 +641,9 @@ class Vehicle
     {
         return $this->_data['LeasingCalculatorUrl'];
     }
+
+    public function getData()
+    {
+        return $this->_data;
+    }
 }
