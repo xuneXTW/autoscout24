@@ -188,6 +188,16 @@ class Vehicle
     {
         return $this->_data['Cylinders'];
     }
+
+    public function getCylinderDesignTypeId()
+    {
+        return $this->_data['CylinderDesignTypeId'] ?? null;
+    }
+
+    public function getCylinderDesignTypeText()
+    {
+        return $this->_data['CylinderDesignTypeText'] ?? null;
+    }
     
     /**
      * @return integer Returns Unix timestamp
@@ -339,6 +349,11 @@ class Vehicle
     public function getHp()
     {
         return $this->_data['Hp'];
+    }
+
+    public function getKw()
+    {
+        return $this->_data['Kw'] ?? null;
     }
     
     /**
@@ -564,6 +579,16 @@ class Vehicle
     {
         return $this->_data['TransmissionTypeText'];
     }
+
+    public function getTransmissionShaftId()
+    {
+        return $this->_data['TransmissionShaftId'] ?? null;
+    }
+
+    public function getTransmissionShaftText()
+    {
+        return $this->_data['TransmissionShaftText'] ?? null;
+    }
     
     /**
      * @return string i.e. `R90 Intens`
@@ -630,6 +655,16 @@ class Vehicle
     public function getWeight()
     {
         return $this->_data['Weight'];
+    }
+
+    public function getWeightTotal()
+    {
+        return $this->_data['WeightTotal'] ?? null;
+    }
+
+    public function getPayLoad()
+    {
+        return $this->_data['PayLoad'] ?? null;
     }
 
     public function getWidth()
